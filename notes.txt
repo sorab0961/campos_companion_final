@@ -1,0 +1,16 @@
+for confirming email:
+BEGIN;
+
+-- Replace with the values you provided
+UPDATE auth.users
+SET email_confirmed_at = NOW()
+WHERE id = '937dd7ae-514d-4f5d-845c-8736f633238c'
+  OR email = 'mihirdave@gmail.com';
+
+-- Verify the change
+SELECT id, email, email_confirmed_at
+FROM auth.users
+WHERE id = '937dd7ae-514d-4f5d-845c-8736f633238c'
+   OR email = 'mihirdave@gmail.com';
+
+COMMIT;

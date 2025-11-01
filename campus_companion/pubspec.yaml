@@ -1,0 +1,28 @@
+name: campus_companion
+description: A campus management app with Supabase backend.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'  # Ensures Dart SDK 3.8.0 or higher, but below 4.0.0
+  flutter: '>=3.32.7'    # Matches the Flutter version in your code
+
+dependencies:
+  flutter:
+    sdk: flutter
+  supabase_flutter: ^2.9.1
+  provider: ^6.1.5+1
+  intl: ^0.18.1
+  url_launcher: ^6.3.2
+  shared_preferences: ^2.5.3
+  cached_network_image: ^3.3.1
+  image_picker: ^1.0.7
+  path: ^1.8.3
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
