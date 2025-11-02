@@ -60,6 +60,16 @@ class DatabaseService extends ChangeNotifier {
     }
   }
 
+  // Get attendance for a specific date (for admin/teacher)
+  Future<List<Map<String, dynamic>>> getAttendanceByDate(DateTime date) async {
+    final d = date.toIso8601String().split('T')[0];
+    final res = await _client
+        .from('attendance')
+        .select('id, user_id, present, marked_by, created_at')
+        .eq('date', d);
+    return List<Map<String, dynamic>>.from(res ?? []);
+  }
+
   Future<void> markAttendance(
     String userId,
     DateTime date,
@@ -70,8 +80,21 @@ class DatabaseService extends ChangeNotifier {
       'user_id': userId,
       'date': dateStr,
       'present': present,
-      'marked_by': _client.auth.currentUser!.id,
-    });
+      'marked_by': _client.auth.currentUser?.id,
+    }, onConflict: 'user_id,date');
+  }
+
+  // Get monthly attendance for a user using RPC
+  Future<List<Map<String, dynamic>>> getUserMonthlyAttendance(
+    String userId,
+    int year,
+    int month,
+  ) async {
+    final res = await _client.rpc(
+      'get_user_monthly_attendance',
+      params: {'_user': userId, '_year': year, '_month': month},
+    );
+    return List<Map<String, dynamic>>.from(res ?? []);
   }
 
   Stream<List<Map<String, dynamic>>> getAllAttendance() {
