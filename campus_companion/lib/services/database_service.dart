@@ -105,13 +105,13 @@ class DatabaseService extends ChangeNotifier {
         .map((data) => List<Map<String, dynamic>>.from(data));
   }
 
-  Stream<List<Map<String, dynamic>>> getUserAttendance(String userId) {
-    return _client
+  Future<List<Map<String, dynamic>>> getUserAttendance(String userId) async {
+    final res = await _client
         .from('attendance')
-        .stream(primaryKey: ['id'])
+        .select('id, user_id, present, date, marked_by, created_at')
         .eq('user_id', userId)
-        .order('date', ascending: false)
-        .map((data) => List<Map<String, dynamic>>.from(data));
+        .order('date', ascending: false);
+    return List<Map<String, dynamic>>.from(res ?? []);
   }
 
   Future<void> deleteAttendance(String id) async {
